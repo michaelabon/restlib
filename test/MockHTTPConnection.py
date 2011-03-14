@@ -13,9 +13,14 @@ class MockHTTPConnection:
             path = path + "?" + query
         if method == "GET":
             try:
-                self.response = MockHTTPResponse(self.responses.GET[path][0])
+                if path == "/400":
+                    self.response = MockHTTPResponse(response = '{"exception":"Bad request"}', status=400, reason="Bad Request")
+                elif path == "/403":
+                    self.response = MockHTTPResponse(response = '{"exception":"Forbidden"}', status=403, reason="Forbidden")
+                else:
+                    self.response = MockHTTPResponse(self.responses.GET[path][0])
             except KeyError:
-                self.response = MockHTTPResponse(response='{"exception":"File not found"', status=404, reason="Not Found")
+                self.response = MockHTTPResponse(response='{"exception":"File not found"}', status=404, reason="Not Found")
 
     def getresponse(self):
         return self.response

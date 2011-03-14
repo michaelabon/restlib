@@ -3,8 +3,14 @@ import json
 import urllib
 import urlparse
 
-class RestLibException: pass
-class HTTPException(RestLibException): pass
+class RestLibException: 
+    pass
+class HTTPException(RestLibException):
+    def __init__(self, status=None, reason=None, exceptionMessage=None):
+        self.status = status
+        self.reason = reason
+        self.exceptionMessage = exceptionMessage
+
 
 class RestLib:
     def __init__(self, base_url, port=80):
@@ -24,10 +30,10 @@ class RestLib:
                 
         if responseText.status != httplib.OK:
             try:
-                xcpMsg = responseObj['exception']
+                exceptionMessage = responseObj['exception']
             except KeyError:
-                xcpMsg = None
-            raise HTTPException(responseText.status, responseText.reason, xcpMsg)
+                exceptionMessage = None
+            raise HTTPException(responseText.status, responseText.reason, exceptionMessage)
         
         return responseObj
         
