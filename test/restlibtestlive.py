@@ -41,3 +41,16 @@ class RestLibTestLive(unittest.TestCase):
         responseObjTop = rest.request_get(resource, {'sort': 'top'})
         self.assertNotEqual(responseObjControversial, responseObjTop, 'controversial should not equal top!')
         #print responseObj
+    
+    def testGETTrailingSlash(self):
+        """Ensure that GET works with a trailing slash."""
+        rest = restlib.RestService('www.reddit.com/')
+        responseObj = rest.request_get('/user/sure_illasdfdfs_draw_that/.json')
+        # Will raise JSONException if 404'd
+        
+    def testGETNonRooted(self):
+        """Ensure that GET works even without a rooted resource."""
+        rest = restlib.RestService('www.reddit.com')
+        responseObj = rest.request_get('user/sure_ill_draw_that/.json')
+        # Will raise JSONException if 404'd
+    

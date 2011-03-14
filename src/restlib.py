@@ -37,6 +37,9 @@ class RestService:
         [cert_file] = A PEM formatted certificate chain file, optional."""
         (scheme, netloc, path, query, fragment) = urlparse.urlsplit(base_url)
         base_url = netloc + path
+        if base_url.endswith('/'):
+            base_url = base_url[:-1]        
+                
         if secure:
             if scheme == "http":
                 raise ValueError()
@@ -66,11 +69,12 @@ class RestService:
         return self.request(path, "POST", args, body)
     
     def request(self, path, verb="GET", args = None, body = None):
-        resource = path
+        if not path.startswith('/'):
+            path = '/' + path
         if args: # Add the query parameters, if any.
-            resource += ('?%s' % urllib.urlencode(args))
+            path += ('?%s' % urllib.urlencode(args))
             
-        self.conn.request(verb, resource, body)
+        self.conn.request(verb, path, body)
         
         responseText = self.conn.getresponse()
         try:
