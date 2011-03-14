@@ -11,6 +11,14 @@ class Responses:
         self.GET['/menu/svg?hasNull=true'] = ('{"menu": { "header": "SVG Viewer", "items": [ {"id": "Open"}, {"id": "OpenNew", "label": "Open New"}, null, {"id": "ZoomIn", "label": "Zoom In"}, {"id": "ZoomOu t", "label": "Zoom Out"}, {"id": "OriginalView", "label": "Original View"}, null , {"id": "Quality"}, {"id": "Pause"}, {"id": "Mute"}, null, {"id": "Find", "label": "Find..."}, {"id": "FindAgain", "label": "Find Again"}, {"id": "Copy"}, {"id": "CopyAgain", "label": "Copy Again"}, {"id": "CopySVG", "label": "Copy SVG"},{"id": "ViewSVG", "label": "View SVG"}, {"id": "ViewSource", "label": "View Source"}, {"id": "SaveAs", "label": "Save As"}, null, {"id": "Help"}, {"id": "About", "label": "About Adobe CVG Viewer..."} ] }}'
                                               , {'menu': {'header': 'SVG Viewer', 'items': [{'id': 'Open'}, {'id': 'OpenNew', 'label': 'Open New'}, None, {'id': 'ZoomIn', 'label': 'Zoom In'}, {'id': 'ZoomOu t', 'label': 'Zoom Out'}, {'id': 'OriginalView', 'label': 'Original View'}, None, {'id': 'Quality'}, {'id': 'Pause'}, {'id': 'Mute'}, None, {'id': 'Find', 'label': 'Find...'}, {'id': 'FindAgain', 'label': 'Find Again'}, {'id': 'Copy'}, {'id': 'CopyAgain', 'label': 'Copy Again'}, {'id': 'CopySVG', 'label': 'Copy SVG'}, {'id': 'ViewSVG', 'label': 'View SVG'}, {'id': 'ViewSource', 'label': 'View Source'}, {'id': 'SaveAs', 'label': 'Save As'}, None, {'id': 'Help'}, {'id': 'About', 'label': 'About Adobe CVG Viewer...'}]}}                                           
                                               )
+        
+        self.ARGS = dict()
+        self.ARGS['{ "one" : True }'] = {'args': {'one': True}}
+        self.ARGS['{"one":True, "two":3}'] = {'args': {'two': 3, 'one': True}}
+        self.GET['/has/args?one=True'] = ('{ "args": { "one" : true } }', {'args': {'one': True}})
+        self.GET['/has/args?one=True&two=3'] = ('{"args":{"one":true, "two":3}}', {'args': {'two': 3, 'one': True}})
+        self.GET['/has/args?two=3&one=True'] = ('{"args":{"one":true, "two":3}}', {'args': {'two': 3, 'one': True}})
+        
         self.GET_TEST = dict()
         self.GET_TEST['/unterminatedJSON'] = ('{', )
         self.GET_TEST['/overterminatedJSON'] = ('{ "isRoot": true }}', )
