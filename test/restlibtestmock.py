@@ -7,6 +7,7 @@ __author__ = 'Mike Kenyon <mike.kenyon@gmail.com'
 __version__ = 0.1
 
 import restlib
+import httplib
 from MockHTTPConnection import MockHTTPConnection
 from Responses import Responses
 import unittest
@@ -87,3 +88,14 @@ class BadServerResponse(unittest.TestCase):
         rest.conn = MockHTTPConnection(r) 
         self.assertRaises(restlib.JSONException, rest.request, "/noJSON", verb="GET_TEST")
         
+class SSL(unittest.TestCase):
+    def testUseSSLByParam(self):
+        rest = restlib.RestLib('https://www.example.com', secure=True)
+        self.assertTrue(isinstance(rest.conn, httplib.HTTPSConnection), "SSL by param does not use HTTPSConnection")
+    def testDoNotUseSSLByParam(self):
+        rest = restlib.RestLib('http://www.example.com', secure=False)
+        self.assertFalse(isinstance(rest.conn, httplib.HTTPSConnection), "No SSL by param uses HTTPSConnection")
+    def testConfuseSSLYesParamNoScheme(self):
+        self.assertRaises(ValueError, restlib.RestLib, 'http://www.example.com', secure=True)
+    def testConfuseSSLNoParamYesScheme(self):
+        self.assertRaises(ValueError, restlib.RestLib, 'https://www.example.com', secure=False)
