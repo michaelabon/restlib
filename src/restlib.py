@@ -1,7 +1,6 @@
 import httplib
 import json
 import urllib
-import urlparse
 
 class RestLibException: 
     pass
@@ -17,13 +16,13 @@ class RestLib:
         self.conn = httplib.HTTPConnection(base_url, port=port)
         self.base_url = base_url
     
-    def request_get(self, path, args = None):
+    def request(self, path, verb="GET", args = None):
         resource = path
         if args:
             resource += ('?%s' % urllib.urlencode(args))
             
         url = "%s%s" % (self.base_url, resource)
-        self.conn.request("GET", url)
+        self.conn.request(verb, url)
         
         responseText = self.conn.getresponse()
         responseObj = json.loads(responseText.read())

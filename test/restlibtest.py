@@ -17,7 +17,7 @@ class GoodConnection(unittest.TestCase):
         rest = restlib.RestLib('http://www.example.com')
         rest.conn = MockHTTPConnection(r)       
         for k, v in r.GET.iteritems():
-            responseObj = rest.request_get(k)
+            responseObj = rest.request(k)
             self.assertEquals(responseObj, v[1])
            
 class BadInput(unittest.TestCase):
@@ -25,17 +25,17 @@ class BadInput(unittest.TestCase):
         r = Responses()
         rest = restlib.RestLib('http://www.example.com')
         rest.conn = MockHTTPConnection(r)
-        self.assertRaises(restlib.HTTPException, rest.request_get, '/file_not_found')
+        self.assertRaises(restlib.HTTPException, rest.request, '/file_not_found')
     def testBadRequest(self):
         r = Responses()
         rest = restlib.RestLib('http://www.example.com')
         rest.conn = MockHTTPConnection(r)
-        self.assertRaises(restlib.HTTPException, rest.request_get, '/400')
+        self.assertRaises(restlib.HTTPException, rest.request, '/400')
     def testForbidden(self):
         r = Responses()
         rest = restlib.RestLib('http://www.example.com')
         rest.conn = MockHTTPConnection(r)
-        self.assertRaises(restlib.HTTPException, rest.request_get, '/403') 
+        self.assertRaises(restlib.HTTPException, rest.request, '/403') 
         
 
 
