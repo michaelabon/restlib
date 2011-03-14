@@ -9,9 +9,11 @@ class HTTPException(RestLibException):
         self.status = status
         self.reason = reason
         self.exceptionMessage = exceptionMessage
+        self.args = status, reason, exceptionMessage
 class JSONException(RestLibException):
     def __init__(self, message=None):
-        self.message=message
+        self.message = message
+        self.args = message
 
 class RestLib:
     def __init__(self, base_url, port=80):
