@@ -23,6 +23,8 @@ class MockHTTPConnection:
                 self.response = MockHTTPResponse(response='{"exception":"File not found"}', status=404, reason="Not Found")
         elif method == "GET_TEST":
             self.response = MockHTTPResponse(self.responses.GET_TEST[path][0])
+        elif method == "POST":
+            self.response = MockHTTPResponse(self.responses.POST[path][0])
 
     def getresponse(self):
         return self.response

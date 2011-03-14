@@ -18,13 +18,14 @@ class RestLib:
         self.conn = httplib.HTTPConnection(base_url, port=port)
         self.base_url = base_url
     
-    def request(self, path, verb="GET", args = None):
+    # In docstring, say that body can be an open file object that supports fileno() and read() methods.
+    def request(self, path, verb="GET", args = None, body = None):
         resource = path
         if args:
             resource += ('?%s' % urllib.urlencode(args))
             
         url = "%s%s" % (self.base_url, resource)
-        self.conn.request(verb, url)
+        self.conn.request(verb, url, body)
         
         responseText = self.conn.getresponse()
         try:
