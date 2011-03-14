@@ -39,16 +39,36 @@ class BadInput(unittest.TestCase):
         rest = restlib.RestLib('http://www.example.com')
         rest.conn = MockHTTPConnection(r)
         self.assertRaises(restlib.HTTPException, rest.request, '/file_not_found')
+        
     def testBadRequest(self):
         r = Responses()
         rest = restlib.RestLib('http://www.example.com')
         rest.conn = MockHTTPConnection(r)
         self.assertRaises(restlib.HTTPException, rest.request, '/400')
+        
     def testForbidden(self):
         r = Responses()
         rest = restlib.RestLib('http://www.example.com')
         rest.conn = MockHTTPConnection(r)
         self.assertRaises(restlib.HTTPException, rest.request, '/403') 
+        
+    def testNotFoundPOST(self):
+        r = Responses()
+        rest = restlib.RestLib('http://www.example.com')
+        rest.conn = MockHTTPConnection(r)
+        self.assertRaises(restlib.HTTPException, rest.request, '/file_not_found', verb="POST")
+        
+    def testBadRequestPOST(self):
+        r = Responses()
+        rest = restlib.RestLib('http://www.example.com')
+        rest.conn = MockHTTPConnection(r)
+        self.assertRaises(restlib.HTTPException, rest.request, '/400', verb="POST")
+        
+    def testForbiddenPOST(self):
+        r = Responses()
+        rest = restlib.RestLib('http://www.example.com')
+        rest.conn = MockHTTPConnection(r)
+        self.assertRaises(restlib.HTTPException, rest.request, '/403', verb="POST") 
         
 class BadServerResponse(unittest.TestCase):
     def testUnterminatedJSON(self):
