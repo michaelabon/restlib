@@ -19,6 +19,7 @@ class JSONException(RestLibException):
 class RestLib:
     def __init__(self, base_url, port=None, secure=False, key_file=None, cert_file=None):
         (scheme, netloc, path, query, fragment) = urlparse.urlsplit(base_url)
+        base_url = netloc + path
         if secure:
             if scheme == "http":
                 raise ValueError()
@@ -45,7 +46,7 @@ class RestLib:
         if args:
             resource += ('?%s' % urllib.urlencode(args))
             
-        url = "%s%s" % (self.base_url, resource)
+        url = resource
         self.conn.request(verb, url, body)
         
         responseText = self.conn.getresponse()
