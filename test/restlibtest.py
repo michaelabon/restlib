@@ -37,5 +37,20 @@ class BadInput(unittest.TestCase):
         rest.conn = MockHTTPConnection(r)
         self.assertRaises(restlib.HTTPException, rest.request, '/403') 
         
-
-
+class BadServerResponse(unittest.TestCase):
+    def testUnterminatedJSON(self):
+        r = Responses()
+        rest = restlib.RestLib('http://www.example.com')
+        rest.conn = MockHTTPConnection(r) 
+        self.assertRaises(restlib.JSONException, rest.request, "/unterminatedJSON", verb="GET_TEST")
+    def testOverterminatedJSON(self):
+        r = Responses()
+        rest = restlib.RestLib('http://www.example.com')
+        rest.conn = MockHTTPConnection(r) 
+        self.assertRaises(restlib.JSONException, rest.request, "/overterminatedJSON", verb="GET_TEST")
+    def testNoJSON(self):
+        r = Responses()
+        rest = restlib.RestLib('http://www.example.com')
+        rest.conn = MockHTTPConnection(r) 
+        self.assertRaises(restlib.JSONException, rest.request, "/noJSON", verb="GET_TEST")
+        

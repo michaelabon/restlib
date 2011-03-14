@@ -9,7 +9,9 @@ class HTTPException(RestLibException):
         self.status = status
         self.reason = reason
         self.exceptionMessage = exceptionMessage
-
+class JSONException(RestLibException):
+    def __init__(self, message=None):
+        self.message=message
 
 class RestLib:
     def __init__(self, base_url, port=80):
@@ -25,7 +27,10 @@ class RestLib:
         self.conn.request(verb, url)
         
         responseText = self.conn.getresponse()
-        responseObj = json.loads(responseText.read())
+        try:
+            responseObj = json.loads(responseText.read())
+        except ValueError as xcp:
+            raise JSONException(xcp.args[0])
                 
         if responseText.status != httplib.OK:
             try:
