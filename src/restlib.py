@@ -1,6 +1,7 @@
 import httplib
 import json
 import urllib
+import urlparse
 
 class RestLibException: 
     pass
@@ -16,8 +17,20 @@ class JSONException(RestLibException):
         self.args = message
 
 class RestLib:
-    def __init__(self, base_url, port=80):
-        self.conn = httplib.HTTPConnection(base_url, port=port)
+    def __init__(self, base_url, port=None, secure=False, key_file=None, cert_file=None):
+        (scheme, netloc, path, query, fragment) = urlparse.urlsplit(base_url)
+        if secure:
+            if scheme == "http":
+                raise ValueError()
+            if not port:
+                port = httplib.HTTPS_PORT
+            self.conn = httplib.HTTPSConnection(base_url, port=port, key_file=key_file, cert_file=cert_file)
+        else:
+            if scheme == "https":
+                raise ValueError()
+            if not port:
+                port = httplib.HTTP_PORT
+            self.conn = httplib.HTTPConnection(base_url, port=port)
         self.base_url = base_url
     
     def request_get(self, path, args=None):
