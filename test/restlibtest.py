@@ -14,7 +14,7 @@ import unittest
 class GoodConnection(unittest.TestCase):
     def testGET(self):
         r = Responses()
-        restlib = RestLib('http://example.com')
+        restlib = RestLib('http://www.example.com')
         restlib.conn = MockHTTPConnection(r)       
         for k, v in r.GET.iteritems():
             print k

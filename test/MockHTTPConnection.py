@@ -1,15 +1,24 @@
 from MockHTTPResponse import MockHTTPResponse
+import urlparse
 
 class MockHTTPConnection:
     def __init__(self, responses):
         self.responses = responses
 
     def request(self, method, url,body=None, headers=None,):
+        split = urlparse.urlparse(url)
+        path = split.path
+        query = split.query
+        if query:
+            path = path + "?" + query
         if method == "GET":
-            self.response = MockHTTPResponse(responses.GET[url][0])
+            try:
+                self.response = MockHTTPResponse(self.responses.GET[path][0])
+            except KeyError:
+                self.response = MockHTTPResponse(response='{"exception":"File not found"', status=404, reason="Not Found")
 
     def getresponse(self):
-        return response
+        return self.response
 
     def set_debuglevel(self):
         pass

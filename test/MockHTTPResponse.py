@@ -7,7 +7,7 @@ class MockHTTPResponse:
         self.msg = None
                 
     def read(self, amt=None):
-        return response
+        return self.response
     
     def getHeader(self, name, default=None):
         pass
