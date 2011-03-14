@@ -26,6 +26,13 @@ class GoodConnection(unittest.TestCase):
         for k, v in r.ARGS.iteritems():
             responseObj = rest.request("/has/args", verb="GET", args=eval(k))
             self.assertEquals(responseObj, v)
+    def testPOST(self):
+        r = Responses()
+        rest = restlib.RestLib('http://www.example.com')
+        rest.conn = MockHTTPConnection(r)
+        for k, v in r.POST.iteritems():
+            responseObj = rest.request(k, verb="POST", body = v[2], args = v[3])
+            self.assertEquals(responseObj, v[1])
 class BadInput(unittest.TestCase):
     def testNotFound(self):
         r = Responses()
