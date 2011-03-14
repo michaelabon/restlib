@@ -18,6 +18,12 @@ class RestLib:
         self.conn = httplib.HTTPConnection(base_url, port=port)
         self.base_url = base_url
     
+    def request_get(self, path, args=None):
+        return self.request(path, "GET", args)
+    
+    def request_post(self, path, args=None, body=None):
+        return self.request(path, "POST", args, body)
+    
     # In docstring, say that body can be an open file object that supports fileno() and read() methods.
     def request(self, path, verb="GET", args = None, body = None):
         resource = path
