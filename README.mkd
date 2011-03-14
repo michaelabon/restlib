@@ -1,0 +1,12 @@
+# RESTLib
+
+This service is designed to help your code interact with a RESTful server.
+To use, simply add these three lines to your project:
+
+    import restlib
+    rest_service = restlib.RestService('www.example.com')
+    json_obj = rest_service.request_get('/resource/on/server')
+
+RESTLib supports GET and PUT on both HTTP and HTTPS.
+
+Tested against Python 2.7 on Windows
