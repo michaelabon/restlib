@@ -23,6 +23,9 @@ class MockHTTPConnection:
                 self.response = MockHTTPResponse(response='{"exception":"File not found"}', status=404, reason="Not Found")
         elif method == "GET_TEST":
             self.response = MockHTTPResponse(self.responses.GET_TEST[path][0])
+            if path == "/file_not_found_no_json":
+                self.response.status = 404
+                self.response.reason = "Not Found"
         elif method == "POST":
             try:
                 if path == "/400":

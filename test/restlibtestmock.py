@@ -33,6 +33,7 @@ class GoodConnection(unittest.TestCase):
             responseObj = rest.request_post(k, body = v[2], args = v[3])
             self.assertEquals(responseObj, v[1])
 class BadInput(unittest.TestCase):
+
     def testNotFound(self):
         r = Responses()
         rest = restlib.RestService('http://www.example.com')
@@ -85,7 +86,12 @@ class BadServerResponse(unittest.TestCase):
         rest = restlib.RestService('http://www.example.com')
         rest.conn = MockHTTPConnection(r) 
         self.assertRaises(restlib.JSONException, rest.request, "/noJSON", verb="GET_TEST")
-        
+    def testNotFoundNoJSONResponse(self):
+        r = Responses()
+        rest = restlib.RestService('http://www.example.com')
+        rest.conn = MockHTTPConnection(r)
+        self.assertRaises(restlib.HTTPException, rest.request, '/file_not_found_no_json', verb="GET_TEST")
+    
 class SSL(unittest.TestCase):
     def testUseSSLByParam(self):
         rest = restlib.RestService('https://www.example.com', secure=True)

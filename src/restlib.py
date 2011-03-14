@@ -80,12 +80,13 @@ class RestService:
         try:
             responseObj = json.loads(responseText.read())
         except ValueError as xcp:
-            raise JSONException(xcp.args[0])
+            if responseText.status == httplib.OK:
+                raise JSONException(xcp.args[0])
                 
         if responseText.status != httplib.OK:
             try: # Try to get the exception key from the JSON, if any.
                 exceptionMessage = responseObj['exception']
-            except KeyError:
+            except (KeyError, UnboundLocalError):
                 exceptionMessage = None
             raise HTTPException(responseText.status, responseText.reason, exceptionMessage)
         

@@ -36,6 +36,7 @@ class Responses:
         self.GET_TEST['/unterminatedJSON'] = ('{', )
         self.GET_TEST['/overterminatedJSON'] = ('{ "isRoot": true }}', )
         self.GET_TEST['/noJSON'] = ('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"> ', )
+        self.GET_TEST['/file_not_found_no_json'] = ('problematic', )
         
         # key is the path to the resource
         # v[0] is the server response for the given resource
